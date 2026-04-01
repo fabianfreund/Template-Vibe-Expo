@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "expo": "~55.0.0",
+    "expo-blur": "~55.0.10",
     "expo-font": "~55.0.4",
     "expo-linking": "~55.0.9",
     "expo-router": "~55.0.8",

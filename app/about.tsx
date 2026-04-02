@@ -1,47 +1,42 @@
 import { useRouter } from 'expo-router';
 import { Pressable, SafeAreaView, StyleSheet, Text, View, useColorScheme } from 'react-native';
+import { AppIcon } from '../components/app-icon';
+import { getTheme, themeTokens } from '../theme';
 
 export default function AboutScreen() {
   const router = useRouter();
-  const colorScheme = useColorScheme();
-  const isDark = colorScheme === 'dark';
-
-  const colors = {
-    background: isDark ? '#0a0a0a' : '#f8f8f8',
-    card: isDark ? '#1a1a1a' : '#ffffff',
-    border: isDark ? '#2a2a2a' : '#e5e5e5',
-    text: isDark ? '#ffffff' : '#0a0a0a',
-    subtext: isDark ? '#888888' : '#666666',
-    accent: '#6366f1',
-    accentText: '#ffffff',
-  };
+  const theme = getTheme(useColorScheme());
 
   return (
-    <SafeAreaView style={[styles.safe, { backgroundColor: colors.background }]}>
+    <SafeAreaView style={[styles.safe, { backgroundColor: theme.colors.background }]}>
       <View style={styles.container}>
-        <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
-          <Text style={[styles.heading, { color: colors.text }]}>Navigation works!</Text>
-          <Text style={[styles.body, { color: colors.subtext }]}>
-            This is the About screen, demonstrating Expo Router v4 file-based navigation.
-            Each file in the{' '}
-            <Text style={[styles.mono, { color: colors.text }]}>app/</Text> directory
-            automatically becomes a route.
+        <View
+          style={[styles.card, { backgroundColor: theme.colors.surface, borderColor: theme.colors.border }]}
+        >
+          <Text style={[styles.heading, { color: theme.colors.text }]}>Navigation works!</Text>
+          <Text style={[styles.body, { color: theme.colors.textMuted }]}>
+            This is the About screen, demonstrating Expo Router v4 file-based navigation. Each
+            file in the <Text style={[styles.mono, { color: theme.colors.text }]}>app/</Text>{' '}
+            directory automatically becomes a route.
           </Text>
-          <View style={[styles.divider, { backgroundColor: colors.border }]} />
-          <Text style={[styles.tip, { color: colors.subtext }]}>
+          <View style={[styles.divider, { backgroundColor: theme.colors.border }]} />
+          <Text style={[styles.tip, { color: theme.colors.textMuted }]}>
             Add new screens by creating files in{' '}
-            <Text style={[styles.mono, { color: colors.text }]}>app/</Text>
+            <Text style={[styles.mono, { color: theme.colors.text }]}>app/</Text>
           </Text>
         </View>
 
         <Pressable
           style={({ pressed }) => [
             styles.button,
-            { backgroundColor: colors.accent, opacity: pressed ? 0.85 : 1 },
+            { backgroundColor: pressed ? theme.colors.accentPressed : theme.colors.accent },
           ]}
           onPress={() => router.back()}
         >
-          <Text style={[styles.buttonText, { color: colors.accentText }]}>← Go Back</Text>
+          <View style={styles.buttonContent}>
+            <AppIcon name="arrow-left" size={16} color={theme.colors.accentContrast} />
+            <Text style={[styles.buttonText, { color: theme.colors.accentContrast }]}>Go Back</Text>
+          </View>
         </Pressable>
       </View>
     </SafeAreaView>
@@ -66,15 +61,17 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 22,
     fontWeight: '700',
+    fontFamily: themeTokens.fonts.sans,
     marginBottom: 12,
   },
   body: {
     fontSize: 15,
+    fontFamily: themeTokens.fonts.sans,
     lineHeight: 22,
     marginBottom: 20,
   },
   mono: {
-    fontFamily: 'monospace',
+    fontFamily: themeTokens.fonts.mono,
     fontWeight: '600',
   },
   divider: {
@@ -83,6 +80,7 @@ const styles = StyleSheet.create({
   },
   tip: {
     fontSize: 14,
+    fontFamily: themeTokens.fonts.sans,
     lineHeight: 20,
   },
   button: {
@@ -90,8 +88,14 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     alignItems: 'center',
   },
+  buttonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
   buttonText: {
     fontSize: 16,
     fontWeight: '600',
+    fontFamily: themeTokens.fonts.sans,
   },
 });

@@ -1,43 +1,41 @@
 import { SafeAreaView, ScrollView, StyleSheet, Text, View, useColorScheme } from 'react-native';
+import { AppIcon } from '../../components/app-icon';
+import { getTheme, themeTokens } from '../../theme';
 
 const FEATURES = [
-  { icon: '⚡', title: 'Expo SDK 55', description: 'Latest stable SDK with new architecture enabled' },
-  { icon: '🧭', title: 'Expo Router v4', description: 'File-based routing with typed routes support' },
-  { icon: '🎨', title: 'Dark / Light Mode', description: 'Automatic theme switching via useColorScheme' },
-  { icon: '📱', title: 'iOS & Android', description: 'Native liquid glass on iOS, Material tabs on Android' },
-  { icon: '🔷', title: 'TypeScript', description: 'Fully typed codebase out of the box' },
-  { icon: '🚀', title: 'EAS Build Ready', description: 'Pre-configured eas.json for CI/CD deployment' },
-];
+  { icon: 'bolt', title: 'Expo SDK 55', description: 'Latest stable SDK with new architecture enabled' },
+  { icon: 'compass', title: 'Expo Router v4', description: 'File-based routing with typed routes support' },
+  { icon: 'palette', title: 'Dark / Light Mode', description: 'Automatic theme switching via useColorScheme' },
+  { icon: 'devices', title: 'iOS & Android', description: 'Native SF Symbol tabs on iOS, vector icons on Android' },
+  { icon: 'code', title: 'TypeScript', description: 'Fully typed codebase out of the box' },
+  { icon: 'rocket', title: 'EAS Build Ready', description: 'Pre-configured eas.json for CI/CD deployment' },
+] as const;
 
 export default function ExploreScreen() {
-  const colorScheme = useColorScheme();
-  const isDark = colorScheme === 'dark';
-
-  const colors = {
-    background: isDark ? '#0a0a0a' : '#f8f8f8',
-    card: isDark ? '#1a1a1a' : '#ffffff',
-    border: isDark ? '#2a2a2a' : '#e5e5e5',
-    text: isDark ? '#ffffff' : '#0a0a0a',
-    subtext: isDark ? '#888888' : '#666666',
-  };
+  const theme = getTheme(useColorScheme());
 
   return (
-    <SafeAreaView style={[styles.safe, { backgroundColor: colors.background }]}>
+    <SafeAreaView style={[styles.safe, { backgroundColor: theme.colors.background }]}>
       <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
-        <Text style={[styles.heading, { color: colors.text }]}>Explore</Text>
-        <Text style={[styles.subheading, { color: colors.subtext }]}>
-          What's included in this template
+        <Text style={[styles.heading, { color: theme.colors.text }]}>Explore</Text>
+        <Text style={[styles.subheading, { color: theme.colors.textMuted }]}>
+          What&apos;s included in this template
         </Text>
 
         <View style={styles.grid}>
           {FEATURES.map(feature => (
             <View
               key={feature.title}
-              style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}
+              style={[
+                styles.card,
+                { backgroundColor: theme.colors.surface, borderColor: theme.colors.border },
+              ]}
             >
-              <Text style={styles.icon}>{feature.icon}</Text>
-              <Text style={[styles.featureTitle, { color: colors.text }]}>{feature.title}</Text>
-              <Text style={[styles.featureDesc, { color: colors.subtext }]}>
+              <View style={[styles.iconWrap, { backgroundColor: theme.colors.surfaceMuted }]}>
+                <AppIcon name={feature.icon} size={20} color={theme.colors.accent} />
+              </View>
+              <Text style={[styles.featureTitle, { color: theme.colors.text }]}>{feature.title}</Text>
+              <Text style={[styles.featureDesc, { color: theme.colors.textMuted }]}>
                 {feature.description}
               </Text>
             </View>
@@ -58,11 +56,13 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 32,
     fontWeight: '700',
+    fontFamily: themeTokens.fonts.sans,
     letterSpacing: -0.5,
     marginBottom: 6,
   },
   subheading: {
     fontSize: 15,
+    fontFamily: themeTokens.fonts.sans,
     marginBottom: 28,
   },
   grid: {
@@ -76,17 +76,23 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 16,
   },
-  icon: {
-    fontSize: 28,
+  iconWrap: {
+    width: 40,
+    height: 40,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
     marginBottom: 10,
   },
   featureTitle: {
     fontSize: 14,
     fontWeight: '700',
+    fontFamily: themeTokens.fonts.sans,
     marginBottom: 4,
   },
   featureDesc: {
     fontSize: 12,
+    fontFamily: themeTokens.fonts.sans,
     lineHeight: 17,
   },
 });

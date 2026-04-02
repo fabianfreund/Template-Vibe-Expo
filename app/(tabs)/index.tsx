@@ -1,4 +1,5 @@
 import { SafeAreaView, ScrollView, StyleSheet, Text, View, useColorScheme } from 'react-native';
+import { getTheme, themeTokens } from '../../theme';
 
 const STACK = [
   { label: 'Expo SDK', value: '55.0' },
@@ -11,42 +12,32 @@ const STACK = [
 const BADGES = ['SDK 55', 'TypeScript', 'EAS Build'];
 
 export default function HomeScreen() {
-  const colorScheme = useColorScheme();
-  const isDark = colorScheme === 'dark';
-
-  const colors = {
-    background: isDark ? '#0a0a0a' : '#f8f8f8',
-    card: isDark ? '#1a1a1a' : '#ffffff',
-    border: isDark ? '#2a2a2a' : '#e5e5e5',
-    text: isDark ? '#ffffff' : '#0a0a0a',
-    subtext: isDark ? '#888888' : '#666666',
-    badge: isDark ? '#1e1e1e' : '#f0f0f0',
-    badgeText: isDark ? '#aaaaaa' : '#555555',
-    accent: '#6366f1',
-  };
+  const theme = getTheme(useColorScheme());
 
   return (
-    <SafeAreaView style={[styles.safe, { backgroundColor: colors.background }]}>
+    <SafeAreaView style={[styles.safe, { backgroundColor: theme.colors.background }]}>
       <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
-        <View style={[styles.logo, { backgroundColor: colors.accent }]}>
+        <View style={[styles.logo, { backgroundColor: theme.colors.accent }]}>
           <Text style={styles.logoText}>VE</Text>
         </View>
 
-        <Text style={[styles.title, { color: colors.text }]}>Vibe Expo Template</Text>
-        <Text style={[styles.subtitle, { color: colors.subtext }]}>
+        <Text style={[styles.title, { color: theme.colors.text }]}>Vibe Expo Template</Text>
+        <Text style={[styles.subtitle, { color: theme.colors.textMuted }]}>
           Production-ready Expo starter
         </Text>
 
         <View style={styles.badges}>
           {BADGES.map(badge => (
-            <View key={badge} style={[styles.badge, { backgroundColor: colors.badge }]}>
-              <Text style={[styles.badgeText, { color: colors.badgeText }]}>{badge}</Text>
+            <View key={badge} style={[styles.badge, { backgroundColor: theme.colors.surfaceMuted }]}>
+              <Text style={[styles.badgeText, { color: theme.colors.textMuted }]}>{badge}</Text>
             </View>
           ))}
         </View>
 
-        <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
-          <Text style={[styles.cardTitle, { color: colors.subtext }]}>TECH STACK</Text>
+        <View
+          style={[styles.card, { backgroundColor: theme.colors.surface, borderColor: theme.colors.border }]}
+        >
+          <Text style={[styles.cardTitle, { color: theme.colors.textMuted }]}>TECH STACK</Text>
           {STACK.map((item, index) => (
             <View
               key={item.label}
@@ -54,18 +45,18 @@ export default function HomeScreen() {
                 styles.stackRow,
                 index < STACK.length - 1 && {
                   borderBottomWidth: 1,
-                  borderBottomColor: colors.border,
+                  borderBottomColor: theme.colors.border,
                 },
               ]}
             >
-              <Text style={[styles.stackLabel, { color: colors.text }]}>{item.label}</Text>
-              <Text style={[styles.stackValue, { color: colors.subtext }]}>{item.value}</Text>
+              <Text style={[styles.stackLabel, { color: theme.colors.text }]}>{item.label}</Text>
+              <Text style={[styles.stackValue, { color: theme.colors.textMuted }]}>{item.value}</Text>
             </View>
           ))}
         </View>
 
-        <Text style={[styles.hint, { color: colors.subtext }]}>
-          Clone • Rename bundle ID • Ship
+        <Text style={[styles.hint, { color: theme.colors.textMuted }]}>
+          Clone, rename the bundle ID, and ship.
         </Text>
       </ScrollView>
     </SafeAreaView>
@@ -92,17 +83,20 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontSize: 28,
     fontWeight: '700',
+    fontFamily: themeTokens.fonts.sans,
     letterSpacing: 1,
   },
   title: {
     fontSize: 26,
     fontWeight: '700',
+    fontFamily: themeTokens.fonts.sans,
     letterSpacing: -0.5,
     textAlign: 'center',
     marginBottom: 6,
   },
   subtitle: {
     fontSize: 15,
+    fontFamily: themeTokens.fonts.sans,
     textAlign: 'center',
     marginBottom: 24,
   },
@@ -121,6 +115,7 @@ const styles = StyleSheet.create({
   badgeText: {
     fontSize: 12,
     fontWeight: '600',
+    fontFamily: themeTokens.fonts.sans,
   },
   card: {
     width: '100%',
@@ -133,6 +128,7 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 11,
     fontWeight: '600',
+    fontFamily: themeTokens.fonts.sans,
     letterSpacing: 1,
     paddingTop: 16,
     paddingBottom: 12,
@@ -146,13 +142,15 @@ const styles = StyleSheet.create({
   stackLabel: {
     fontSize: 15,
     fontWeight: '500',
+    fontFamily: themeTokens.fonts.sans,
   },
   stackValue: {
     fontSize: 15,
-    fontFamily: 'monospace',
+    fontFamily: themeTokens.fonts.mono,
   },
   hint: {
     fontSize: 13,
+    fontFamily: themeTokens.fonts.sans,
     letterSpacing: 0.5,
   },
 });
